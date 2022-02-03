@@ -1,6 +1,8 @@
-package ru.stqa.training.selenium;
+package ru.stqa.training.selenium.tests;
 
-public class DataProvider {
+import ru.stqa.training.selenium.model.Customer;
+
+public class DataProviders {
     public static Object[][] validCustomers() {
         return new Object[][] {
                 { Customer.newEntity()

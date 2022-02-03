@@ -1,4 +1,4 @@
-package ru.stqa.training.selenium;
+package ru.stqa.training.selenium.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,8 @@ import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
-public class CustomerListPage extends Page{
+public class CustomerListPage extends Page {
+
     public CustomerListPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);

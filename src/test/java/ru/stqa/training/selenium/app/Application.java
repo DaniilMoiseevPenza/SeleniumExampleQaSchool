@@ -1,16 +1,17 @@
-package ru.stqa.training.selenium;
+package ru.stqa.training.selenium.app;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.stqa.training.selenium.model.Customer;
+import ru.stqa.training.selenium.pages.AdminPanelLoginPage;
+import ru.stqa.training.selenium.pages.CustomerListPage;
+import ru.stqa.training.selenium.pages.RegistrationPage;
 
-import java.time.Duration;
 import java.util.Set;
-
 
 public class Application {
 
-    private final WebDriverWait wait;
+
     private final WebDriver driver;
 
     private final RegistrationPage registrationPage;
@@ -19,7 +20,6 @@ public class Application {
 
     public Application() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         registrationPage = new RegistrationPage(driver);
         adminPanelLoginPage = new AdminPanelLoginPage(driver);
         customerListPage = new CustomerListPage(driver);
@@ -52,4 +52,5 @@ public class Application {
 
         return customerListPage.open().getCustomerIds();
     }
+
 }
