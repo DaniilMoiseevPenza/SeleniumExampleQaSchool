@@ -1,15 +1,12 @@
 package ru.stqa.training.selenium;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
 
 public class Application {
 
@@ -18,7 +15,7 @@ public class Application {
 
     private final RegistrationPage registrationPage;
     private final AdminPanelLoginPage adminPanelLoginPage;
-    private CustomerListPage customerListPage;
+    private final CustomerListPage customerListPage;
 
     public Application() {
         driver = new ChromeDriver();
@@ -49,17 +46,10 @@ public class Application {
     }
 
     public Set<String> getCustomerIds() {
-        driver.get("http://localhost/litecart/admin");
-        if (driver.findElements(By.id("box-login")).size() > 0) {
-            driver.findElement(By.name("username")).sendKeys("admin");
-            driver.findElement(By.name("password")).sendKeys("admin");
-            driver.findElement(By.name("login")).click();
-            wait.until((WebDriver d) -> d.findElement(By.id("box-apps-menu")));
+        if (adminPanelLoginPage.open().isOnThisPage()) {
+            adminPanelLoginPage.enterUsername("admin").enterPassword("admin").submitLogin();
         }
 
-        driver.get("http://localhost/litecart/admin/?app=customers&doc=customers");
-        return driver.findElements(By.cssSelector("table.dataTable tr.row")).stream()
-                .map(e -> e.findElements(By.tagName("td")).get(2).getText())
-                .collect(toSet());
+        return customerListPage.open().getCustomerIds();
     }
 }
