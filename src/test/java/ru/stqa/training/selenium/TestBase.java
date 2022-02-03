@@ -1,40 +1,26 @@
 package ru.stqa.training.selenium;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class TestBase {
 
-    public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
-    public static WebDriver driver;
-    public static WebDriverWait wait;
+    public static ThreadLocal<Application> tlApp = new ThreadLocal<>();
+    public static Application app;
 
     @BeforeAll
     static void start() {
-        WebDriverManager.chromedriver().setup();
-        if (tlDriver.get() != null) {
-            driver = tlDriver.get();
-            wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        if (tlApp.get() != null) {
+            app = tlApp.get();
             return;
         }
 
-        driver = new ChromeDriver();
-        tlDriver.set(driver);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        app = new Application();
+        tlApp.set(app);
 
         Runtime.getRuntime().addShutdownHook(
-                new Thread(() -> { driver.quit(); driver = null; }));
-    }
-
-    @AfterAll
-    static void stop() {
-        //driver.quit();
-        //driver = null;
+                new Thread(() -> {
+                    app.quit();
+                    app = null;
+                }));
     }
 }
